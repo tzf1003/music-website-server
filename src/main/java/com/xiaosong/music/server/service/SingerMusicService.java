@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 /**
  *
  */
-@Service
+
 public interface SingerMusicService extends IService<SingerMusic> {
 
 }
