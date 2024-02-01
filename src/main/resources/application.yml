@@ -31,3 +31,7 @@ mybatis-plus:
 # 服务器配置，设置Spring Boot应用运行的端口
 server:
   port: 7070
+# 配置swagger
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html
