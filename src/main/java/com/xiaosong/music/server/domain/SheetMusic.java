@@ -8,25 +8,25 @@ import java.io.Serializable;
 import lombok.Data;
 
 /**
- * 
+ * 歌单和歌曲关联表
  * @TableName xs_sheet_music
  */
 @TableName(value ="xs_sheet_music")
 @Data
 public class SheetMusic implements Serializable {
     /**
-     * 
+     * 自增ID
      */
     @TableId(type = IdType.AUTO)
     private Integer id;
 
     /**
-     * 
+     * 歌单ID
      */
     private Integer sheet;
 
     /**
-     * 
+     * 歌单所关联的歌曲。
      */
     private Integer music;
 

@@ -11,12 +11,12 @@
             <result property="avatar" column="avatar" jdbcType="VARCHAR"/>
             <result property="info" column="info" jdbcType="VARCHAR"/>
             <result property="email" column="email" jdbcType="VARCHAR"/>
-            <result property="verification" column="verification" jdbcType="INTEGER"/>
+            <result property="state" column="state" jdbcType="INTEGER"/>
     </resultMap>
 
     <sql id="Base_Column_List">
         id,username,password,
         avatar,info,email,
-        verification
+        state
     </sql>
 </mapper>

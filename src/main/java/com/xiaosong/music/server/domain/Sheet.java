@@ -8,30 +8,30 @@ import java.io.Serializable;
 import lombok.Data;
 
 /**
- * 
+ * 歌单
  * @TableName xs_sheet
  */
 @TableName(value ="xs_sheet")
 @Data
 public class Sheet implements Serializable {
     /**
-     * 
+     * 自增ID
      */
     @TableId(type = IdType.AUTO)
     private Integer id;
 
     /**
-     * 
+     * 歌单名称
      */
     private String name;
 
     /**
-     * 
+     * 歌单详情(描述)
      */
     private String info;
 
     /**
-     * 
+     * 创建用户
      */
     private Integer user;
 

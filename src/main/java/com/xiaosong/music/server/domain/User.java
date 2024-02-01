@@ -15,40 +15,43 @@ import lombok.Data;
 @Data
 public class User implements Serializable {
     /**
-     * 
+     * 自增id
      */
     @TableId(type = IdType.AUTO)
     private Integer id;
 
     /**
-     * 
+     * 用户名
      */
     private String username;
 
     /**
-     * 
+     * 密码(md5算法)
      */
     private String password;
 
     /**
-     * 
+     * 头像链接
      */
     private String avatar;
 
     /**
-     * 
+     * 用户信息
      */
     private String info;
 
     /**
-     * 
+     * 邮件
      */
     private String email;
 
     /**
-     * 
+     * 邮件是否验证状态：
+     *   0、未验证
+     *   1、已验证
+     *   2、被禁用
      */
-    private Integer verification;
+    private Integer state;
 
     @TableField(exist = false)
     private static final long serialVersionUID = 1L;
@@ -71,7 +74,7 @@ public class User implements Serializable {
             && (this.getAvatar() == null ? other.getAvatar() == null : this.getAvatar().equals(other.getAvatar()))
             && (this.getInfo() == null ? other.getInfo() == null : this.getInfo().equals(other.getInfo()))
             && (this.getEmail() == null ? other.getEmail() == null : this.getEmail().equals(other.getEmail()))
-            && (this.getVerification() == null ? other.getVerification() == null : this.getVerification().equals(other.getVerification()));
+            && (this.getState() == null ? other.getState() == null : this.getState().equals(other.getState()));
     }
 
     @Override
@@ -84,7 +87,7 @@ public class User implements Serializable {
         result = prime * result + ((getAvatar() == null) ? 0 : getAvatar().hashCode());
         result = prime * result + ((getInfo() == null) ? 0 : getInfo().hashCode());
         result = prime * result + ((getEmail() == null) ? 0 : getEmail().hashCode());
-        result = prime * result + ((getVerification() == null) ? 0 : getVerification().hashCode());
+        result = prime * result + ((getState() == null) ? 0 : getState().hashCode());
         return result;
     }
 
@@ -100,7 +103,7 @@ public class User implements Serializable {
         sb.append(", avatar=").append(avatar);
         sb.append(", info=").append(info);
         sb.append(", email=").append(email);
-        sb.append(", verification=").append(verification);
+        sb.append(", state=").append(state);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();

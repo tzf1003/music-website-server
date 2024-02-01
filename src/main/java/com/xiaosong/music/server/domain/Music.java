@@ -8,35 +8,35 @@ import java.io.Serializable;
 import lombok.Data;
 
 /**
- * 
+ * 音乐
  * @TableName xs_music
  */
 @TableName(value ="xs_music")
 @Data
 public class Music implements Serializable {
     /**
-     * 
+     * 自增ID
      */
     @TableId(type = IdType.AUTO)
     private Integer id;
 
     /**
-     * 
+     * 歌曲名
      */
     private String name;
 
     /**
-     * 
+     * 类型，表示此歌曲的来源，比如链接，还是其他网站的ID
      */
     private String type;
 
     /**
-     * 
+     * type表示后的数据，里面的内容和type相关。
      */
     private String data;
 
     /**
-     * 
+     * 歌手
      */
     private Integer singer;
 
