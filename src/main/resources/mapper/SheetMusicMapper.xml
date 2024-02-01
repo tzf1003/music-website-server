@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xiaosong.music.server.mapper.SheetMusicMapper">
+
+    <resultMap id="BaseResultMap" type="com.xiaosong.music.server.domain.SheetMusic">
+            <id property="id" column="id" jdbcType="INTEGER"/>
+            <result property="sheet" column="sheet" jdbcType="INTEGER"/>
+            <result property="music" column="music" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,sheet,music
+    </sql>
+</mapper>
