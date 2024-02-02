@@ -1,37 +1,8 @@
-# Spring框架的Thymeleaf模板引擎配置，用于关闭缓存，便于开发时实时更新页面
+# 设置为生产环境或者开发环境
 spring:
-  thymeleaf:
-    cache: false
-  # 数据库连接配置
-  datasource:
-    username: music
-    password: 123456
-    url: jdbc:mysql://localhost:3306/music-website?useUnicode=true&useSSL=false&characterEncoding=utf8&serverTimezone=UTC
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    # 静态资源访问配置
-    # mvc:
-    # static-path-pattern: /**
-    # resources:
-    # static-locations: classpath:/
-
-# MyBatis-Plus配置，用于指定Mapper接口的XML配置文件位置，实体类别名包路径，以及一些全局配置
-mybatis-plus:
-  configuration:
-    # 开启日志打印
-    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
-    # 使用数据库自增主键
-    use-generated-keys: true
-    # 开启数据库字段的驼峰命名映射
-    map-underscore-to-camel-case: true
-  # Mapper接口的XML配置文件位置
-  mapper-locations: classpath:/mapper/*.xml
-  # 实体类别名包路径
-  type-aliases-package: com.xiaosong.music.server.model
+  profiles:
+    active: prod
 
 # 服务器配置，设置Spring Boot应用运行的端口
 server:
   port: 7070
-# 配置swagger
-springdoc:
-  swagger-ui:
-    path: /swagger-ui.html

@@ -1,0 +1,26 @@
+spring:
+  # 数据库连接配置
+  datasource:
+    username: music
+    password: 123456
+    #    使用allowPublicKeyRetrieval=true解决Public Key Retrieval is not allowed问题
+    url: jdbc:mysql://localhost:3306/music-website?useUnicode=true&useSSL=false&characterEncoding=utf8&serverTimezone=UTC&allowPublicKeyRetrieval=true
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+mybatis-plus:
+  configuration:
+    # 开启日志打印
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+    # 使用数据库自增主键
+    use-generated-keys: true
+    # 开启数据库字段的驼峰命名映射
+    map-underscore-to-camel-case: true
+  # Mapper接口的XML配置文件位置
+  mapper-locations: classpath:/mapper/*.xml
+  # 实体类别名包路径
+  type-aliases-package: com.xiaosong.music.server.model
+
+# 配置swagger
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html
