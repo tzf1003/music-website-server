@@ -172,13 +172,18 @@ public class wyCollectionMusic {
                         //没有当前歌手，插入新的歌手。
                         // 获取歌手详情
                         JSONObject singerDetail = getSingerDetailById(singerId);
-                        singer.setName(singerName);
-                        singer.setDescription(singerDetail.getString("briefDesc"));
-                        singer.setPicUrl(singerDetail.getString("picUrl"));
-                        singer.setImg1v1Url(singerDetail.getString("img1v1Url"));
+                        if (singerDetail!=null){
+                            singer.setName(singerName);
+                            singer.setDescription(singerDetail.getString("briefDesc"));
+                            singer.setPicUrl(singerDetail.getString("picUrl"));
+                            singer.setImg1v1Url(singerDetail.getString("img1v1Url"));
+                            singerService.save(singer);
+                        }else {
+                            singer = new Singer();
+                        }
                         // 新增歌手
                         logger.info("没有当前歌手,新增歌手:{}", singer);
-                        singerService.save(singer);
+
                     }else {
                         singer = getSinger;
                         logger.info("有当前歌手:{}", singer);
@@ -235,6 +240,7 @@ public class wyCollectionMusic {
         }
     }
     public JSONObject getSingerDetailById(Integer singerId){
+        logger.info("getSingerDetailById:{}",singerId);
         OkHttpClient client = new OkHttpClient();
         String url = baseUrl + "/artists?id=" + singerId ;
         try {
@@ -243,7 +249,13 @@ public class wyCollectionMusic {
             Response response = client.newCall(request).execute();
             String responseData = response.body().string();
             JSONObject jsonObject = new JSONObject(responseData);
-            JSONObject artist = jsonObject.getJSONObject("artist");
+            JSONObject artist = null;
+            try {
+                artist = jsonObject.getJSONObject("artist");
+            }catch (Exception e){
+                // 捕获异常并忽略或记录，不做其他处理
+            }
+
             return artist;
         }catch (Exception e) {
             e.printStackTrace();
