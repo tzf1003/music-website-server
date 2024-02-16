@@ -8,7 +8,7 @@ import java.io.Serializable;
 import lombok.Data;
 
 /**
- * 音乐
+ * 
  * @TableName xs_music
  */
 @TableName(value ="xs_music")
@@ -26,19 +26,24 @@ public class Music implements Serializable {
     private String name;
 
     /**
-     * 类型，表示此歌曲的来源，比如链接，还是其他网站的ID
+     * 专辑ID
      */
-    private String type;
+    private Integer album;
 
     /**
-     * type表示后的数据，里面的内容和type相关。
+     * 歌词
      */
-    private String data;
+    private String lyric;
 
     /**
-     * 歌手
+     * 来源，此歌曲的来源，比如链接，还是其他网站的ID
      */
-    private Integer singer;
+    private String source;
+
+    /**
+     * 来源数据，里面的内容和source相关。
+     */
+    private String sourceData;
 
     @TableField(exist = false)
     private static final long serialVersionUID = 1L;
@@ -57,9 +62,10 @@ public class Music implements Serializable {
         Music other = (Music) that;
         return (this.getId() == null ? other.getId() == null : this.getId().equals(other.getId()))
             && (this.getName() == null ? other.getName() == null : this.getName().equals(other.getName()))
-            && (this.getType() == null ? other.getType() == null : this.getType().equals(other.getType()))
-            && (this.getData() == null ? other.getData() == null : this.getData().equals(other.getData()))
-            && (this.getSinger() == null ? other.getSinger() == null : this.getSinger().equals(other.getSinger()));
+            && (this.getAlbum() == null ? other.getAlbum() == null : this.getAlbum().equals(other.getAlbum()))
+            && (this.getLyric() == null ? other.getLyric() == null : this.getLyric().equals(other.getLyric()))
+            && (this.getSource() == null ? other.getSource() == null : this.getSource().equals(other.getSource()))
+            && (this.getSourceData() == null ? other.getSourceData() == null : this.getSourceData().equals(other.getSourceData()));
     }
 
     @Override
@@ -68,9 +74,10 @@ public class Music implements Serializable {
         int result = 1;
         result = prime * result + ((getId() == null) ? 0 : getId().hashCode());
         result = prime * result + ((getName() == null) ? 0 : getName().hashCode());
-        result = prime * result + ((getType() == null) ? 0 : getType().hashCode());
-        result = prime * result + ((getData() == null) ? 0 : getData().hashCode());
-        result = prime * result + ((getSinger() == null) ? 0 : getSinger().hashCode());
+        result = prime * result + ((getAlbum() == null) ? 0 : getAlbum().hashCode());
+        result = prime * result + ((getLyric() == null) ? 0 : getLyric().hashCode());
+        result = prime * result + ((getSource() == null) ? 0 : getSource().hashCode());
+        result = prime * result + ((getSourceData() == null) ? 0 : getSourceData().hashCode());
         return result;
     }
 
@@ -82,9 +89,10 @@ public class Music implements Serializable {
         sb.append("Hash = ").append(hashCode());
         sb.append(", id=").append(id);
         sb.append(", name=").append(name);
-        sb.append(", type=").append(type);
-        sb.append(", data=").append(data);
-        sb.append(", singer=").append(singer);
+        sb.append(", album=").append(album);
+        sb.append(", lyric=").append(lyric);
+        sb.append(", source=").append(source);
+        sb.append(", sourceData=").append(sourceData);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();

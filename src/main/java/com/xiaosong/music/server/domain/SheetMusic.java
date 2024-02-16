@@ -8,7 +8,7 @@ import java.io.Serializable;
 import lombok.Data;
 
 /**
- * 歌单和歌曲关联表
+ * 
  * @TableName xs_sheet_music
  */
 @TableName(value ="xs_sheet_music")

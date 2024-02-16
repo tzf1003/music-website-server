@@ -7,12 +7,13 @@
     <resultMap id="BaseResultMap" type="com.xiaosong.music.server.domain.Singer">
             <id property="id" column="id" jdbcType="INTEGER"/>
             <result property="name" column="name" jdbcType="VARCHAR"/>
-            <result property="info" column="info" jdbcType="VARCHAR"/>
-            <result property="image" column="image" jdbcType="VARCHAR"/>
+            <result property="description" column="description" jdbcType="VARCHAR"/>
+            <result property="picUrl" column="pic_url" jdbcType="VARCHAR"/>
+            <result property="img1v1Url" column="img1v1_url" jdbcType="VARCHAR"/>
     </resultMap>
 
     <sql id="Base_Column_List">
-        id,name,info,
-        image
+        id,name,description,
+        pic_url,img1v1_url
     </sql>
 </mapper>

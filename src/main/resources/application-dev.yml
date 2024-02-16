@@ -24,3 +24,6 @@ mybatis-plus:
 springdoc:
   swagger-ui:
     path: /swagger-ui.html
+music:
+  api:
+    wy-base-url: "http://101.42.149.18:3000"

@@ -7,12 +7,17 @@
     <resultMap id="BaseResultMap" type="com.xiaosong.music.server.domain.Sheet">
             <id property="id" column="id" jdbcType="INTEGER"/>
             <result property="name" column="name" jdbcType="VARCHAR"/>
-            <result property="info" column="info" jdbcType="VARCHAR"/>
+            <result property="description" column="description" jdbcType="VARCHAR"/>
             <result property="user" column="user" jdbcType="INTEGER"/>
+            <result property="imgUrl" column="img_url" jdbcType="VARCHAR"/>
+            <result property="source" column="source" jdbcType="VARCHAR"/>
+            <result property="sourceId" column="source_id" jdbcType="VARCHAR"/>
+            <result property="isPublic" column="is_public" jdbcType="TINYINT"/>
     </resultMap>
 
     <sql id="Base_Column_List">
-        id,name,info,
-        user
+        id,name,description,
+        user,img_url,source,
+        source_id,is_public
     </sql>
 </mapper>
