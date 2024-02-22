@@ -9,7 +9,7 @@ import lombok.Data;
 
 /**
  * 
- * @TableName xs_singer_music
+ * @TableName fix(自增id):
  */
 @TableName(value ="xs_singer_music")
 @Data
@@ -17,7 +17,7 @@ public class SingerMusic implements Serializable {
     /**
      * 自增ID
      */
-    @TableId
+    @TableId(type = IdType.AUTO)
     private Integer id;
 
     /**
