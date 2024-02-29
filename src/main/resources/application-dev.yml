@@ -1,4 +1,6 @@
 spring:
+  application:
+    name: service-swagger
   # 数据库连接配置
   datasource:
     username: music
@@ -20,10 +22,7 @@ mybatis-plus:
   # 实体类别名包路径
   type-aliases-package: com.xiaosong.music.server.model
 
-# 配置swagger
-springdoc:
-  swagger-ui:
-    path: /swagger-ui.html
+
 music:
   api:
     wy-base-url: "http://101.42.149.18:3000"

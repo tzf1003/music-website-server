@@ -2,10 +2,21 @@
 spring:
   profiles:
     active: dev
+  redis:
+    #数据库索引
+    database: 0
+    #服务器地址
+    host: 127.0.0.1
+    #端口号
+    port: 6379
+    #redis密码（默认为空）
+    password:
+    #连接redis超时时间
+    timeout: 3000
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
 
 # 服务器配置，设置Spring Boot应用运行的端口
 server:
   port: 7070
-
-music:
-  privateKey: 123;
