@@ -23,4 +23,13 @@ public class UserController {
             userService.registerUser(userDto);
     return ResultResponse.success("注册成功");
     }
+    @PostMapping("/login")
+    @Operation(summary = "登录")
+    public ResultResponse login(
+            @Parameter(name = "UserDto", description = "用户数据")
+            @RequestBody UserDto userDto)
+    {
+        userService.registerUser(userDto);
+        return ResultResponse.success("注册成功");
+    }
 }

@@ -56,6 +56,9 @@ implements UserService{
         //实例化数据
         userMapper.insert(user);
     }
+
+
+
     public User selectUserByEmail(String email){
         Map<String, Object> userParams = new HashMap<>();
         userParams.put("email", email);
@@ -71,6 +74,13 @@ implements UserService{
         userQueryWrapper.allEq(userParams);
         User user= userMapper.selectOne(userQueryWrapper);
         return user;
+    }
+
+    @Override
+    public String getUserAuthorityInfo(Integer userId) {
+        //获取state就行
+        User user = userMapper.selectById(userId);
+        return user.getState().name();
     }
 }
 
