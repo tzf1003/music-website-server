@@ -1,10 +1,6 @@
 package com.xiaosong.music.server.controller;
 
 import com.xiaosong.music.server.config.JWT.JwtUtils;
-import com.xiaosong.music.server.config.JWT.LoginFailureHandler;
-import com.xiaosong.music.server.config.JWT.LoginSuccessHandler;
-import com.xiaosong.music.server.domain.User;
-import com.xiaosong.music.server.domain.dto.LoginUser;
 import com.xiaosong.music.server.domain.dto.ResultResponse;
 import com.xiaosong.music.server.domain.dto.UserDto;
 import com.xiaosong.music.server.service.UserService;
