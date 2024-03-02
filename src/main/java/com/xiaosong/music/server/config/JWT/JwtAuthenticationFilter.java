@@ -1,8 +1,12 @@
-package com.xiaosong.music.server.utils.JWT;
+package com.xiaosong.music.server.config.JWT;
 
 import cn.hutool.core.util.StrUtil;
+import com.xiaosong.music.server.config.Captcha.CaptchaException;
+import com.xiaosong.music.server.config.Captcha.CaptchaFilter;
 import com.xiaosong.music.server.domain.User;
 import com.xiaosong.music.server.service.UserService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.security.authentication.AuthenticationManager;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtException;
@@ -10,38 +14,57 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
-import org.springframework.stereotype.Component;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+
+/**
+ * JWT认证过滤器
+ * 继承自BasicAuthenticationFilter，用于解析并验证JWT Token的有效性，并为通过验证的请求设置认证信息
+ */
 public class JwtAuthenticationFilter extends BasicAuthenticationFilter {
 
     @Autowired
-    JwtUtils jwtUtils;
+    private JwtUtils jwtUtils;
 
     @Autowired
-    UserDetailServiceImpl userDetailService;
+    private UserDetailServiceImpl userDetailService;
 
     @Autowired
-    UserService userService;
-
+    private UserService userService;
+    private Logger logger = LoggerFactory.getLogger(JwtAuthenticationFilter.class);
+    /**
+     * 构造函数，注入AuthenticationManager
+     * @param authenticationManager 认证管理器
+     */
     public JwtAuthenticationFilter(AuthenticationManager authenticationManager) {
         super(authenticationManager);
     }
 
+    /**
+     * 实现JWT认证流程
+     *
+     * @param request 请求对象
+     * @param response 响应对象
+     * @param chain 过滤器链
+     * @throws IOException IO异常
+     * @throws ServletException Servlet异常
+     */
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws IOException, ServletException {
         String jwt = request.getHeader(jwtUtils.getHeader());
-        // 这里如果没有jwt，继续往后走，因为后面还有鉴权管理器等去判断是否拥有身份凭证，所以是可以放行的
-        // 没有jwt相当于匿名访问，若有一些接口是需要权限的，则不能访问这些接口
+
+        // 如果请求头中没有JWT则放行，后续过滤器会处理身份验证
+        logger.error(jwt);
         if (StrUtil.isBlankOrUndefined(jwt)) {
             chain.doFilter(request, response);
             return;
         }
 
+        // 解析JWT获取Claims
         Claims claim = jwtUtils.getClaimsByToken(jwt);
         if (claim == null) {
             throw new JwtException("token 异常");
@@ -50,16 +73,15 @@ public class JwtAuthenticationFilter extends BasicAuthenticationFilter {
             throw new JwtException("token 已过期");
         }
 
+        // 从JWT获取用户账号，并加载用户权限信息
         String account = claim.getSubject();
-        // 获取用户的权限等信息
+        User user = userService.selectUserByUsername(account);
 
-        User user = userService.selectUserByAccount(account);
-
-
-        // 构建UsernamePasswordAuthenticationToken,这里密码为null，是因为提供了正确的JWT,实现自动登录
+        // 构建认证信息并设置到SecurityContext中，实现自动登录
         UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(account, null, userDetailService.getUserAuthority(user.getId()));
         SecurityContextHolder.getContext().setAuthentication(token);
-        chain.doFilter(request, response);
 
+        // 继续执行下一个过滤器
+        chain.doFilter(request, response);
     }
 }

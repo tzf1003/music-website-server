@@ -1,5 +1,7 @@
 package com.xiaosong.music.server.utils;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.SetOperations;
@@ -23,7 +25,7 @@ import java.util.concurrent.TimeUnit;
 public final class RedisUtil {
 	@Autowired
 	private RedisTemplate<String, Object> redisTemplate;
-
+	private Logger logger = LoggerFactory.getLogger(RedisUtil.class);
 	/**
 	 * 指定缓存失效时间
 	 * 
@@ -273,12 +275,14 @@ public final class RedisUtil {
 	 * @return true 成功 false失败
 	 */
 	public boolean hset(String key, String item, Object value, long time) {
+		redisTemplate.opsForHash().put(key, item, value);
 		try {
 			if (time > 0) {
 				expire(key, time);
 			}
 			return true;
 		} catch (Exception e) {
+
 			e.printStackTrace();
 			return false;
 		}

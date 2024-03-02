@@ -9,10 +9,9 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
-
 public class AccountUser implements UserDetails {
 
-    private Integer userId;
+    private Long userId;
 
     private static final long serialVersionUID = 540L;
     private static final Log logger = LogFactory.getLog(User.class);
@@ -24,11 +23,11 @@ public class AccountUser implements UserDetails {
     private final boolean credentialsNonExpired;
     private final boolean enabled;
 
-    public AccountUser(Integer userId, String username, String password, Collection<? extends GrantedAuthority> authorities) {
+    public AccountUser(Long userId, String username, String password, Collection<? extends GrantedAuthority> authorities) {
         this(userId, username, password, true, true, true, true, authorities);
     }
 
-    public AccountUser(Integer userId, String username, String password, boolean enabled, boolean accountNonExpired, boolean credentialsNonExpired, boolean accountNonLocked, Collection<? extends GrantedAuthority> authorities) {
+    public AccountUser(Long userId, String username, String password, boolean enabled, boolean accountNonExpired, boolean credentialsNonExpired, boolean accountNonLocked, Collection<? extends GrantedAuthority> authorities) {
         Assert.isTrue(username != null && !"".equals(username) && password != null, "Cannot pass null or empty values to constructor");
         this.userId = userId;
         this.username = username;
@@ -64,7 +63,6 @@ public class AccountUser implements UserDetails {
     public boolean isAccountNonLocked() {
         return this.accountNonLocked;
     }
-
 
     @Override
     public boolean isCredentialsNonExpired() {

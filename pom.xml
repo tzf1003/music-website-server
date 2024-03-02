@@ -127,6 +127,13 @@
             <artifactId>commons-codec</artifactId>
             <version>1.15</version>
         </dependency>
+<!--        解决：javax.xml.bind.DatatypeConverter错误-->
+        <dependency>
+            <groupId>javax.xml.bind</groupId>
+            <artifactId>jaxb-api</artifactId>
+            <version>2.3.1</version>
+        </dependency>
+
     </dependencies>
     <dependencyManagement>
         <dependencies>

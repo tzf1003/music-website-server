@@ -1,4 +1,4 @@
-package com.xiaosong.music.server.utils.Captcha;
+package com.xiaosong.music.server.config.Captcha;
 
 import com.google.code.kaptcha.impl.DefaultKaptcha;
 import com.google.code.kaptcha.util.Config;

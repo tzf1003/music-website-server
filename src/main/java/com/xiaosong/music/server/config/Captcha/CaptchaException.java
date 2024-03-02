@@ -1,4 +1,4 @@
-package com.xiaosong.music.server.utils.Captcha;
+package com.xiaosong.music.server.config.Captcha;
 
 import org.springframework.security.core.AuthenticationException;
 

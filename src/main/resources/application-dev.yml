@@ -26,7 +26,3 @@ mybatis-plus:
 music:
   api:
     wy-base-url: "http://101.42.149.18:3000"
-  jwt:
-    header: Authorization
-    expire: 604800 # 7天，s为单位
-    cret: abcdefghabcdefghabcdefghabcdefgh
