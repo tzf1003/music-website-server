@@ -3,18 +3,19 @@ package com.xiaosong.music.server.domain.dto;
 import cn.hutool.core.lang.Assert;
 import com.xiaosong.music.server.domain.User;
 
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
+@Slf4j
 public class AccountUser implements UserDetails {
 
     private Long userId;
 
     private static final long serialVersionUID = 540L;
-    private static final Log logger = LogFactory.getLog(User.class);
     private String password;
     private final String username;
     private final Collection<? extends GrantedAuthority> authorities;

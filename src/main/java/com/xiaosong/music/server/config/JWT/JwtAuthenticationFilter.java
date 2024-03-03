@@ -5,6 +5,7 @@ import com.xiaosong.music.server.config.Captcha.CaptchaException;
 import com.xiaosong.music.server.config.Captcha.CaptchaFilter;
 import com.xiaosong.music.server.domain.User;
 import com.xiaosong.music.server.service.UserService;
+import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -25,6 +26,7 @@ import java.io.IOException;
  * JWT认证过滤器
  * 继承自BasicAuthenticationFilter，用于解析并验证JWT Token的有效性，并为通过验证的请求设置认证信息
  */
+@Slf4j
 public class JwtAuthenticationFilter extends BasicAuthenticationFilter {
 
     @Autowired
@@ -35,7 +37,6 @@ public class JwtAuthenticationFilter extends BasicAuthenticationFilter {
 
     @Autowired
     private UserService userService;
-    private Logger logger = LoggerFactory.getLogger(JwtAuthenticationFilter.class);
     /**
      * 构造函数，注入AuthenticationManager
      * @param authenticationManager 认证管理器

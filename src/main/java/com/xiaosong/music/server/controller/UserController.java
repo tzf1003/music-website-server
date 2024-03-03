@@ -13,7 +13,8 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-@RestController("user")
+@RestController
+@RequestMapping("/user")
 @Api(value = "User的控制层", tags = "用户相关的接口", description = "UserController")
 public class UserController {
     @Autowired

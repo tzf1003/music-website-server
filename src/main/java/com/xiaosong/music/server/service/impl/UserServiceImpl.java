@@ -5,7 +5,6 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.xiaosong.music.server.config.JWT.LoginFailureHandler;
 import com.xiaosong.music.server.config.JWT.LoginSuccessHandler;
 import com.xiaosong.music.server.domain.User;
-import com.xiaosong.music.server.domain.dto.LoginUser;
 import com.xiaosong.music.server.domain.dto.UserDto;
 import com.xiaosong.music.server.enums.UserStateEnum;
 import com.xiaosong.music.server.error.BizException;
@@ -107,18 +106,6 @@ implements UserService{
         //获取state就行
         User user = userMapper.selectById(userId);
         return user.getState().name();
-    }
-
-    @Override
-    public User userLogin(LoginUser loginUser) {
-        //通过用户名登录尝试
-        User user = selectUserByEmailPassword(loginUser.getUsername(),loginUser.getPassword());
-        //判断是否成功。
-        if (user==null){
-            //通过密码登录尝试。
-            user = selectUserByAccountPassword(loginUser.getUsername(),loginUser.getPassword());
-        }
-        return user;
     }
 }
 

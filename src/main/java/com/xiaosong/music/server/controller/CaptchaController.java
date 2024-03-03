@@ -8,7 +8,6 @@ import com.xiaosong.music.server.domain.dto.ResultResponse;
 import com.xiaosong.music.server.utils.RedisUtil;
 import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -20,7 +19,7 @@ import java.util.UUID;
 
 @RestController
 @Api(value = "验证码", tags = "验证码相关的接口", description = "Captcha")
-public class Captcha {
+public class CaptchaController {
 
     @Autowired
     Producer producer;

@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.google.code.kaptcha.Constants;
 import com.xiaosong.music.server.config.JWT.LoginFailureHandler;
 import com.xiaosong.music.server.utils.RedisUtil;
+import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +24,7 @@ import java.io.IOException;
  * 验证码校验过滤器，用于登录请求的验证码校验。
  * 继承自Spring框架的OncePerRequestFilter，确保每次请求只通过一次filter，不需要重复执行。
  */
+@Slf4j
 @Component
 public class CaptchaFilter extends OncePerRequestFilter {
 
@@ -32,7 +34,6 @@ public class CaptchaFilter extends OncePerRequestFilter {
     @Autowired
     private LoginFailureHandler loginFailureHandler; // 注入登录失败处理器
 
-    private Logger logger = LoggerFactory.getLogger(CaptchaFilter.class);
     /**
      * 过滤器的核心方法，用于校验验证码的正确性。
      *
