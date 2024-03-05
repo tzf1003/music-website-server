@@ -26,7 +26,7 @@ public class UserController {
     @ApiImplicitParam(name = "UserDto", value = "用户数据")
     public ResultResponse register(@RequestBody UserDto userDto){
         userService.registerUser(userDto);
-        return ResultResponse.success("注册成功");
+        return ResultResponse.success(null,"注册成功");
     }
     @PostMapping("/login")
     @ApiOperation(value = "用户登录", notes = "登录")
@@ -45,5 +45,27 @@ public class UserController {
     {
 
         return ResultResponse.success("登录成功");
+    }
+    //根据用户名判断是否注册
+    @ApiOperation(value = "根据用户名判断是否注册", notes = "判断")
+    @GetMapping("/isRegisterByUsername")
+    @ApiImplicitParam(name = "username", value = "用户名")
+    public ResultResponse isRegisterByUsername(@RequestParam String username) {
+        boolean isRegister=false;
+        if (userService.selectUserByUsername(username)!=null){
+            isRegister=true;
+        }
+        return ResultResponse.success(isRegister);
+    }
+    //根据邮箱判断是否已注册
+    @ApiOperation(value = "根据邮件判断是否注册", notes = "判断")
+    @GetMapping("/isRegisterByEmail")
+    @ApiImplicitParam(name = "email", value = "email")
+    public ResultResponse isRegisterByEmail(@RequestParam String email) {
+        boolean isRegister=false;
+        if (userService.selectUserByEmail(email)!=null){
+            isRegister=true;
+        }
+        return ResultResponse.success(isRegister);
     }
 }

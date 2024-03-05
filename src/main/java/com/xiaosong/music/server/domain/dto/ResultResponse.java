@@ -80,6 +80,18 @@ public class ResultResponse {
         rb.setResult(data);
         return rb;
     }
+    /**
+     * 成功
+     * @param data
+     * @return
+     */
+    public static ResultResponse success(Object data,String msg) {
+        ResultResponse rb = new ResultResponse();
+        rb.setCode(ExceptionEnum.SUCCESS.getResultCode());
+        rb.setMessage(msg);
+        rb.setResult(data);
+        return rb;
+    }
 
     /**
      * 失败

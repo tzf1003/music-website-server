@@ -1,7 +1,6 @@
 package com.xiaosong.music.server.config.JWT;
 
 import com.xiaosong.music.server.config.Captcha.CaptchaFilter;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -12,7 +11,6 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 /**
@@ -61,16 +59,18 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     // 白名单URL数组
     private static final String[] URL_WHITELIST = {
-      "/login",
-      "/logout",
+      "/user/login",
+      "/user/logout",
       "/captcha",
-      "/register",
+      "/user/register",
       "/favicon.ico",
        //swagger
       "/swagger-ui.html",
       "/v2/**",
       "/swagger-resources/**",
-      "/webjars/**"
+      "/webjars/**",
+      "/user/isRegisterByEmail",
+      "/user/isRegisterByUsername"
     };
 
     /**
