@@ -61,19 +61,22 @@ public class WyUtil {
         }
     }
     //使用id获取音乐详情
-    public String getMusicDetailById(Integer musicId){
+    public String getMusicPicUrlById(Integer musicId){
         logger.info("getMusicDetailById:{}",musicId);
         OkHttpClient client = new OkHttpClient();
-        String url = baseUrl + "/song/detail?ids=347230" + musicId ;
+        String url = baseUrl + "/song/detail?ids=" + musicId ;
         try {
-            //获取Lyric详情 http://101.42.149.18:3000/song/detail?ids=347230
+            //获取音乐详情 http://101.42.149.18:3000/song/detail?ids=347230
             Request request = new Request.Builder().url(url).build();
             Response response = client.newCall(request).execute();
             String responseData = response.body().string();
             JSONObject jsonObject = JSON.parseObject(responseData);
             logger.info("getMusicDetailById.jsonObject:{}",jsonObject);
-            JSONObject lrc = jsonObject.getJSONObject("lrc");
-            return lrc.getString("lyric");
+
+            JSONArray songs = jsonObject.getJSONArray("songs");
+            JSONObject song = songs.getJSONObject(0);
+            JSONObject al = song.getJSONObject("al");
+            return al.getString("picUrl");
         }catch (Exception e) {
             e.printStackTrace();
             return "";
@@ -169,6 +172,7 @@ public class WyUtil {
                 logger.info("写入失败，则说明存在该sheet数据，取到该数据sheetParams:{}", sheetParams);
                 logger.error("写入失败错误数据:{}",e);
                 Sheet sheetOne = sheetService.getOne(sheetQueryWrapper);
+                logger.info("取到该数据sheetService.getOne:{}", sheetOne);
                 sheet = sheetOne;
             }
 
@@ -185,6 +189,9 @@ public class WyUtil {
                 String Lyric = getMusicLyricById(track.getInteger("id"));
                 logger.info("Lyric:{}",Lyric);
                 music.setLyric(Lyric);
+                String musicPicUrl = getMusicPicUrlById(track.getInteger("id"));
+                logger.info("musicPicUrl:{}",musicPicUrl);
+                music.setImgUrl(musicPicUrl);
                 // 获取到专辑。
                 JSONObject albumObject = track.getJSONObject("al");
                 Album album = new Album();
@@ -251,7 +258,7 @@ public class WyUtil {
                         if (singerDetail!=null){
                             singer.setName(singerName);
                             singer.setDescription(singerDetail.getString("briefDesc"));
-                            singer.setPicUrl(singerDetail.getString("picUrl"));
+                            singer.setImgUrl(singerDetail.getString("picUrl"));
                             singer.setImg1v1Url(singerDetail.getString("img1v1Url"));
                             singerService.save(singer);
                         }else {

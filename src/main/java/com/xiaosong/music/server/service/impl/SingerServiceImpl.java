@@ -1,6 +1,8 @@
 package com.xiaosong.music.server.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -12,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Random;
 
 /**
  *
@@ -66,6 +69,16 @@ implements SingerService{
         //获得分页结果中的所有数据
         List<Singer> records = categoryPageResult.getRecords();
         return records;
+    }
+
+    @Override
+    public Singer RandomSinger() {
+        Random random = new Random();
+        int count = Math.toIntExact(singerMapper.selectCount(null));
+        int offset = random.nextInt(count);
+        Wrapper<Singer> wrapper = new QueryWrapper<Singer>().last("limit 1 offset "+offset);
+        Singer singer = singerMapper.selectOne(wrapper);
+        return singer;
     }
 }
 

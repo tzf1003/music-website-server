@@ -64,7 +64,10 @@ public class JwtAuthenticationFilter extends BasicAuthenticationFilter {
             chain.doFilter(request, response);
             return;
         }
-
+        //清除掉头部的Bearer
+        if (jwt.startsWith("Bearer ")){
+            jwt = jwt.substring(7);
+        }
         // 解析JWT获取Claims
         Claims claim = jwtUtils.getClaimsByToken(jwt);
         if (claim == null) {

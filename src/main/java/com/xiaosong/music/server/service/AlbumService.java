@@ -13,4 +13,5 @@ public interface AlbumService extends IService<Album> {
     public List<Album> SearchAlbum(String str);
     public List<Album> SearchAlbum(String str,Long size);
     public List<Album> SearchAlbum(String str,Long page,Long size);
+
 }

@@ -45,6 +45,11 @@ public class Music implements Serializable {
      */
     private String sourceData;
 
+    /**
+     * 图片
+     */
+    private String imgUrl;
+
     @TableField(exist = false)
     private static final long serialVersionUID = 1L;
 
@@ -65,7 +70,8 @@ public class Music implements Serializable {
             && (this.getAlbum() == null ? other.getAlbum() == null : this.getAlbum().equals(other.getAlbum()))
             && (this.getLyric() == null ? other.getLyric() == null : this.getLyric().equals(other.getLyric()))
             && (this.getSource() == null ? other.getSource() == null : this.getSource().equals(other.getSource()))
-            && (this.getSourceData() == null ? other.getSourceData() == null : this.getSourceData().equals(other.getSourceData()));
+            && (this.getSourceData() == null ? other.getSourceData() == null : this.getSourceData().equals(other.getSourceData()))
+            && (this.getImgUrl() == null ? other.getImgUrl() == null : this.getImgUrl().equals(other.getImgUrl()));
     }
 
     @Override
@@ -78,6 +84,7 @@ public class Music implements Serializable {
         result = prime * result + ((getLyric() == null) ? 0 : getLyric().hashCode());
         result = prime * result + ((getSource() == null) ? 0 : getSource().hashCode());
         result = prime * result + ((getSourceData() == null) ? 0 : getSourceData().hashCode());
+        result = prime * result + ((getImgUrl() == null) ? 0 : getImgUrl().hashCode());
         return result;
     }
 
@@ -93,6 +100,7 @@ public class Music implements Serializable {
         sb.append(", lyric=").append(lyric);
         sb.append(", source=").append(source);
         sb.append(", sourceData=").append(sourceData);
+        sb.append(", imgUrl=").append(imgUrl);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();

@@ -47,18 +47,7 @@ implements FavoritesService{
         //循环出数据
         List<Favorites> records = result.getRecords();
         //插入相应数据。
-        for (Favorites record : records) {
-            Object obj = null;
-            //判断类型处理
-            if ("album".equals(record.getFavType())){
-                obj = albumService.getById(record.getFavId());
-            }else if ("sheet".equals(record.getFavType())){
-                obj = sheetService.getById(record.getFavId());
-            }else if ("singer".equals(record.getFavType())){
-                obj = singerService.getById(record.getFavId());
-            }
-            record.setFavObj(obj);
-        }
+        result.setRecords(setObject(records));
         return result;
     }
 
@@ -86,6 +75,23 @@ implements FavoritesService{
         favoritesParams.put("user_id", user.getId());
 
         favoritesMapper.deleteByMap(favoritesParams);
+    }
+
+    //把相关对象插入到Favorites对象里
+    private List<Favorites> setObject(List<Favorites> records){
+        for (Favorites record : records) {
+            Object obj = null;
+            //判断类型处理
+            if ("album".equals(record.getFavType())){
+                obj = albumService.getById(record.getFavId());
+            }else if ("sheet".equals(record.getFavType())){
+                obj = sheetService.getById(record.getFavId());
+            }else if ("singer".equals(record.getFavType())){
+                obj = singerService.getById(record.getFavId());
+            }
+            record.setFavObj(obj);
+        }
+        return records;
     }
 }
 

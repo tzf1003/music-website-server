@@ -14,4 +14,6 @@ public interface SingerService extends IService<Singer> {
     public List<Singer> SearchSinger(String str,Long size);
     public List<Singer> SearchSinger(String str,Long page,Long size);
 
+    public Singer RandomSinger();
+
 }

@@ -33,7 +33,7 @@ public class Singer implements Serializable {
     /**
      * 歌手图片
      */
-    private String picUrl;
+    private String imgUrl;
 
     /**
      * 歌手1比1图片
@@ -58,7 +58,7 @@ public class Singer implements Serializable {
         return (this.getId() == null ? other.getId() == null : this.getId().equals(other.getId()))
             && (this.getName() == null ? other.getName() == null : this.getName().equals(other.getName()))
             && (this.getDescription() == null ? other.getDescription() == null : this.getDescription().equals(other.getDescription()))
-            && (this.getPicUrl() == null ? other.getPicUrl() == null : this.getPicUrl().equals(other.getPicUrl()))
+            && (this.getImgUrl() == null ? other.getImgUrl() == null : this.getImgUrl().equals(other.getImgUrl()))
             && (this.getImg1v1Url() == null ? other.getImg1v1Url() == null : this.getImg1v1Url().equals(other.getImg1v1Url()));
     }
 
@@ -69,7 +69,7 @@ public class Singer implements Serializable {
         result = prime * result + ((getId() == null) ? 0 : getId().hashCode());
         result = prime * result + ((getName() == null) ? 0 : getName().hashCode());
         result = prime * result + ((getDescription() == null) ? 0 : getDescription().hashCode());
-        result = prime * result + ((getPicUrl() == null) ? 0 : getPicUrl().hashCode());
+        result = prime * result + ((getImgUrl() == null) ? 0 : getImgUrl().hashCode());
         result = prime * result + ((getImg1v1Url() == null) ? 0 : getImg1v1Url().hashCode());
         return result;
     }
@@ -83,7 +83,7 @@ public class Singer implements Serializable {
         sb.append(", id=").append(id);
         sb.append(", name=").append(name);
         sb.append(", description=").append(description);
-        sb.append(", picUrl=").append(picUrl);
+        sb.append(", imgUrl=").append(imgUrl);
         sb.append(", img1v1Url=").append(img1v1Url);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");

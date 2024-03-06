@@ -14,14 +14,13 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 @RestController
-@RequestMapping("/user")
 @Api(value = "User的控制层", tags = "用户相关的接口", description = "UserController")
 public class UserController {
     @Autowired
     UserService userService;
     @Autowired
     JwtUtils jwtUtils;
-    @PostMapping("/register")
+    @PostMapping("/user/register")
     @ApiOperation(value = "用户注册", notes = "注册")
     @ApiImplicitParam(name = "UserDto", value = "用户数据")
     public ResultResponse register(@RequestBody UserDto userDto){
@@ -44,11 +43,11 @@ public class UserController {
     )
     {
 
-        return ResultResponse.success("登录成功");
+        return ResultResponse.error("登录失败");
     }
     //根据用户名判断是否注册
     @ApiOperation(value = "根据用户名判断是否注册", notes = "判断")
-    @GetMapping("/isRegisterByUsername")
+    @GetMapping("/user/isRegisterByUsername")
     @ApiImplicitParam(name = "username", value = "用户名")
     public ResultResponse isRegisterByUsername(@RequestParam String username) {
         boolean isRegister=false;
@@ -59,7 +58,7 @@ public class UserController {
     }
     //根据邮箱判断是否已注册
     @ApiOperation(value = "根据邮件判断是否注册", notes = "判断")
-    @GetMapping("/isRegisterByEmail")
+    @GetMapping("/user/isRegisterByEmail")
     @ApiImplicitParam(name = "email", value = "email")
     public ResultResponse isRegisterByEmail(@RequestParam String email) {
         boolean isRegister=false;

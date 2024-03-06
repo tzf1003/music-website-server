@@ -15,6 +15,6 @@ public class wyCollectionMusic {
     //通过歌单 批量采集音乐
     @Test
     public void batchCollectionOfMusicBySongSheet(){
-        wyUtil.batchCollectionOfMusicBySongSheet("514947114");
+        wyUtil.batchCollectionOfMusicBySongSheet("98317854");
     }
 }

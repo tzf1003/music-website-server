@@ -1,17 +1,21 @@
 package com.xiaosong.music.server.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.xiaosong.music.server.domain.Music;
 import com.xiaosong.music.server.domain.Sheet;
+import com.xiaosong.music.server.domain.Singer;
 import com.xiaosong.music.server.service.SheetService;
 import com.xiaosong.music.server.mapper.SheetMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Random;
 
 /**
  *
@@ -67,6 +71,16 @@ implements SheetService{
         //获得分页结果中的所有数据
         List<Sheet> records = categoryPageResult.getRecords();
         return records;
+    }
+
+    @Override
+    public Sheet RandomSheet() {
+        Random random = new Random();
+        int count = Math.toIntExact(sheetMapper.selectCount(null));
+        int offset = random.nextInt(count);
+        Wrapper<Sheet> wrapper = new QueryWrapper<Sheet>().last("limit 1 offset "+offset);
+        Sheet sheet = sheetMapper.selectOne(wrapper);
+        return sheet;
     }
 }
 
