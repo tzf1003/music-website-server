@@ -70,7 +70,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
       "/swagger-resources/**",
       "/webjars/**",
       "/user/isRegisterByEmail",
-      "/user/isRegisterByUsername"
+      "/user/isRegisterByUsername",
+      "/home"
     };
 
     /**

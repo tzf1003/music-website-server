@@ -1,10 +1,14 @@
 package com.xiaosong.music.server.controller;
 
 import com.xiaosong.music.server.config.JWT.JwtUtils;
+import com.xiaosong.music.server.domain.User;
 import com.xiaosong.music.server.domain.dto.ResultResponse;
 import com.xiaosong.music.server.domain.dto.UserDto;
+import com.xiaosong.music.server.domain.dto.UserInfoDto;
 import com.xiaosong.music.server.service.UserService;
 
+import com.xiaosong.music.server.utils.StringUtil;
+import io.jsonwebtoken.Claims;
 import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.AccessDeniedException;
@@ -66,5 +70,24 @@ public class UserController {
             isRegister=true;
         }
         return ResultResponse.success(isRegister);
+    }
+    //获取用户信息
+    @ApiOperation(value = "获取用户信息", notes = "获取")
+    @GetMapping("/user/info")
+//    @ApiImplicitParam(name = "authHeader", value = "token")
+    public ResultResponse userInfo(@RequestHeader("Authorization") String authHeader) {
+        //读取jwt中用户信息
+        Claims claims = jwtUtils.getClaimsByToken(authHeader);
+        String username = claims.getSubject();
+
+        User user = userService.selectUserByUsername(username);
+        UserInfoDto userInfoDto = new UserInfoDto();
+        userInfoDto.setId(user.getId());
+        userInfoDto.setUsername(user.getUsername());
+        userInfoDto.setEmail(StringUtil.maskEmail(user.getEmail()));
+        userInfoDto.setDescription(user.getDescription());
+        userInfoDto.setAvatar(user.getAvatar());
+        return ResultResponse.success(userInfoDto);
+
     }
 }

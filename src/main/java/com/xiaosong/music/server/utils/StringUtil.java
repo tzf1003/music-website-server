@@ -208,4 +208,32 @@ public class StringUtil {
                         c == '?' || c == '`' || c == '~' || c == '|' ||
                         c == '\\');
     }
+    /**
+     * 隐藏邮件中间的内容。
+     *
+     * @param email 邮件。
+     * @return 返回处理过的邮件内容。
+     */
+    public static String maskEmail(String email) {
+        int atIndex = email.indexOf('@');
+        if (atIndex == -1) {
+            return email; // 如果没有找到@符号，直接返回原始电子邮件地址
+        }
+
+        String localPart = email.substring(0, atIndex);
+        String domainPart = email.substring(atIndex);
+
+        // 保留第一个和最后一个字符，中间的用星号(*)替换
+        if (localPart.length() > 2) {
+            char firstChar = localPart.charAt(0);
+            char lastChar = localPart.charAt(localPart.length() - 1);
+            String stars = "*".repeat(localPart.length() - 2);
+            return firstChar + stars + lastChar + domainPart;
+        } else {
+            // 如果本地部分少于或等于2个字符，直接返回原始电子邮件地址
+            return email;
+        }
+    }
+
+
 }

@@ -59,7 +59,6 @@ public class JwtAuthenticationFilter extends BasicAuthenticationFilter {
         String jwt = request.getHeader(jwtUtils.getHeader());
 
         // 如果请求头中没有JWT则放行，后续过滤器会处理身份验证
-        logger.error(jwt);
         if (StrUtil.isBlankOrUndefined(jwt)) {
             chain.doFilter(request, response);
             return;
