@@ -1,16 +1,16 @@
 package com.xiaosong.music.server.controller;
 
+import com.xiaosong.music.server.config.JWT.JwtUtils;
 import com.xiaosong.music.server.domain.History;
 import com.xiaosong.music.server.domain.Sheet;
 import com.xiaosong.music.server.domain.Singer;
+import com.xiaosong.music.server.domain.User;
 import com.xiaosong.music.server.domain.dto.HomeDto;
 import com.xiaosong.music.server.domain.dto.ResultResponse;
 import com.xiaosong.music.server.error.BizException;
 
-import com.xiaosong.music.server.service.HistoryService;
-import com.xiaosong.music.server.service.MusicService;
-import com.xiaosong.music.server.service.SheetService;
-import com.xiaosong.music.server.service.SingerService;
+import com.xiaosong.music.server.service.*;
+import io.jsonwebtoken.Claims;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
@@ -36,6 +36,10 @@ public class IndexController {
     MusicService musicService;
     @Autowired
     HistoryService historyService;
+    @Autowired
+    UserService userService;
+    @Autowired
+    JwtUtils jwtUtils;
     @GetMapping("/hello")
 //    @PreAuthorize("hasAuthority('NORMAL_ACCOUNT')")
     @ApiOperation(value = "添加用户", notes = "添加用户")
@@ -81,8 +85,19 @@ public class IndexController {
         homeDto.setSingers(singers);
 
         //历史记录
-        List<History> histerys = historyService.getHisterys(10);
-        homeDto.setHistorys(histerys);
+        //有用户才历史记录
+        if (authHeader.equals("null") || authHeader.isEmpty()){
+            homeDto.setHistorys(null);
+        }else {
+            //读取jwt中用户信息
+            Claims claims = jwtUtils.getClaimsByToken(authHeader);
+            String username = claims.getSubject();
+            //获取到用户
+            User user = userService.selectUserByUsername(username);
+            List<History> histerys = historyService.getHisterys(10,user.getId());
+            homeDto.setHistorys(histerys);
+        }
+
         return ResultResponse.success(homeDto);
     }
 }

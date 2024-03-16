@@ -4,10 +4,12 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.xiaosong.music.server.config.JWT.LoginFailureHandler;
 import com.xiaosong.music.server.config.JWT.LoginSuccessHandler;
+import com.xiaosong.music.server.domain.Sheet;
 import com.xiaosong.music.server.domain.User;
 import com.xiaosong.music.server.domain.dto.UserDto;
 import com.xiaosong.music.server.enums.UserStateEnum;
 import com.xiaosong.music.server.error.BizException;
+import com.xiaosong.music.server.service.SheetService;
 import com.xiaosong.music.server.service.UserService;
 import com.xiaosong.music.server.mapper.UserMapper;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -29,6 +31,8 @@ implements UserService{
     UserMapper userMapper;
     @Autowired
     PasswordEncoder passwordEncoder;
+    @Autowired
+    SheetService sheetService;
 
     public void registerUser(UserDto userDto){
         //判断 email 格式是否正确
@@ -61,6 +65,25 @@ implements UserService{
         user.setState(UserStateEnum.NO_VERIFICATION_EMAIL);
         //实例化数据
         userMapper.insert(user);
+
+        //给用户创建“已点赞歌曲”
+        Sheet sheet = new Sheet();
+        //设置创建者
+        sheet.setUser(user.getId());
+        sheet.setName("已点赞歌曲");
+        sheet.setIsPublic(0);
+        sheet.setSource("local-liked");
+        sheet.setSourceId("");
+        sheet.setImgUrl("https://music-1251788949.cos.ap-chongqing.myqcloud.com/liked-songs.png");
+        sheet.setDescription("用户:"+user.getUsername()+",喜欢的音乐");
+        sheetService.save(sheet);
+
+        //更新用户的like值
+        User updateUser= new User();
+        updateUser.setId(user.getId());
+        updateUser.setLiked(sheet.getId());
+        userMapper.updateById(updateUser);
+
     }
 
 

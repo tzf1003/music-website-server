@@ -10,5 +10,5 @@ import java.util.List;
  */
 public interface HistoryService extends IService<History> {
 
-    public List<History> getHisterys(Integer count);
+    public List<History> getHisterys(Integer count,Integer userId);
 }

@@ -9,7 +9,9 @@ import com.xiaosong.music.server.mapper.HistoryMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  *
@@ -28,9 +30,10 @@ implements HistoryService{
     @Autowired
     MusicService musicService;
     @Override
-    public List<History> getHisterys(Integer count) {
+    public List<History> getHisterys(Integer count,Integer userId) {
         LambdaQueryWrapper<History> wrapper = new LambdaQueryWrapper<>();
         wrapper.orderByDesc(History::getCreatedAt);
+        wrapper.eq(History::getUserId, userId);
         wrapper.last("limit "+count);
         List<History> history = historyMapper.selectList(wrapper);
         history = setObject(history);

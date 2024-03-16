@@ -46,6 +46,10 @@ public class User implements Serializable {
      * 邮件
      */
     private String email;
+    /**
+     * 喜欢的歌曲在歌单中的id
+     */
+    private Integer liked;
 
     /**
      * 邮件是否验证状态：
