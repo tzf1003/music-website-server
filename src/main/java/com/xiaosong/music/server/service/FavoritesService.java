@@ -15,4 +15,5 @@ public interface FavoritesService extends IService<Favorites> {
     public IPage<Favorites> getFavorites(Integer page , String username);
     public void setFavorites(String favType,Integer favId ,String username);
     public void deleteFavorites(String favType,Integer favId ,String username);
+
 }

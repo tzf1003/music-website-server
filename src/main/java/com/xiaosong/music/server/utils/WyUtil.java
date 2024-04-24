@@ -101,6 +101,26 @@ public class WyUtil {
             return "";
         }
     }
+    //使用id获取音乐时长
+    public Integer getMusicDurationById(Integer musicId){
+        logger.info("getMusicDurationById:{}",musicId);
+        OkHttpClient client = new OkHttpClient();
+        String url = baseUrl + "/song/url?id=" + musicId ;
+        try {
+            //获取Lyric详情 http://101.42.149.18:3000/song/url?id=33894312
+            Request request = new Request.Builder().url(url).build();
+            Response response = client.newCall(request).execute();
+            String responseData = response.body().string();
+            JSONObject jsonObject = JSON.parseObject(responseData);
+            logger.info("getMusicDurationById.jsonObject:{}",jsonObject);
+//            JSONObject duration = jsonObject.getJSONObject("data");
+            JSONArray duration = jsonObject.getJSONArray("data");
+            return duration.getJSONObject(0).getInteger("time");
+        }catch (Exception e) {
+            e.printStackTrace();
+            return 0;
+        }
+    }
     //使用id获取歌手详细信息
     public JSONObject getSingerDetailById(Integer singerId){
         logger.info("getSingerDetailById:{}",singerId);
@@ -192,9 +212,14 @@ public class WyUtil {
                 String musicPicUrl = getMusicPicUrlById(track.getInteger("id"));
                 logger.info("musicPicUrl:{}",musicPicUrl);
                 music.setImgUrl(musicPicUrl);
+                Integer musicDuration = getMusicDurationById(track.getInteger("id"));
+                logger.info("musicDuration:{}",musicDuration);
+                music.setDuration(musicDuration);
                 // 获取到专辑。
                 JSONObject albumObject = track.getJSONObject("al");
                 Album album = new Album();
+                //获取时长
+                JSONObject duration = track.getJSONObject("al");
                 //判断是否存在该专辑。
                 Map<String, Object> albumParams = new HashMap<>();
                 albumParams.put("source", "wy");
@@ -218,7 +243,7 @@ public class WyUtil {
                     //有当前专辑，则赋值
                     album = albumOne;
                 }
-                music.setAlbum(album.getId());
+//                music.setAlbum(album.getId());
                 //尝试保存，保存失败则表示存在，如果存在这首歌，则获取这首歌的信息。
                 try {
                     musicService.save(music);

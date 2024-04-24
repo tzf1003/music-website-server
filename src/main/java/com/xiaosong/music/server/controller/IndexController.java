@@ -44,10 +44,10 @@ public class IndexController {
 //    @PreAuthorize("hasAuthority('NORMAL_ACCOUNT')")
     @ApiOperation(value = "添加用户", notes = "添加用户")
     @ApiImplicitParam(name = "name", value = "名称")
-    public ResultResponse index(@RequestParam(name = "name",required = false) String name) {
+    public ResultResponse index(@RequestParam(name = "name", required = false) String name) {
         //如果name为空就手动抛出一个自定义的异常！
-        if(name==null){
-            throw  new BizException("-1","name不能为空！");
+        if (name == null) {
+            throw new BizException("-1", "name不能为空！");
         }
         return ResultResponse.success("hello " + name);
     }
@@ -56,7 +56,6 @@ public class IndexController {
     @ApiOperation(value = "获取主界面的展示的信息", notes = "根据用户情况")
     @ApiImplicitParam(name = "authHeader", value = "token")
     public ResultResponse home( @RequestHeader("Authorization") String authHeader) {
-        //如果name为空就手动抛出一个自定义的异常！
         HomeDto homeDto = new HomeDto();
         //获取猜你喜欢，目前先做随机读取。
         List<Object> likes= new ArrayList<>();

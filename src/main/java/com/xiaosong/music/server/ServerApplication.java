@@ -15,7 +15,7 @@ public class ServerApplication {
     public static void main(String[] args) {
         SpringApplication.run(ServerApplication.class, args);
     }
-//PasswordEncoder放在这里解决依赖循环问题
+    //PasswordEncoder放在这里解决依赖循环问题
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();

@@ -4,10 +4,14 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.xiaosong.music.server.config.JWT.JwtUtils;
 import com.xiaosong.music.server.domain.Favorites;
+import com.xiaosong.music.server.domain.Sheet;
+import com.xiaosong.music.server.domain.User;
 import com.xiaosong.music.server.domain.dto.ResultResponse;
 import com.xiaosong.music.server.domain.dto.UserDto;
 import com.xiaosong.music.server.error.BizException;
 import com.xiaosong.music.server.service.FavoritesService;
+import com.xiaosong.music.server.service.SheetService;
+import com.xiaosong.music.server.service.UserService;
 import io.jsonwebtoken.Claims;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -26,6 +30,10 @@ public class FavoritesController {
     @Autowired
     FavoritesService favoritesService;
     @Autowired
+    UserService userService;
+    @Autowired
+    SheetService sheetService;
+    @Autowired
     JwtUtils jwtUtils;
     @GetMapping("/get")
     @ApiOperation(value = "分页获取音乐库", notes = "获取音乐库")
@@ -36,9 +44,25 @@ public class FavoritesController {
         if (page<=0 || page==null){
             page=1;
         }
+        //获取喜欢的歌单
         IPage<Favorites> favorites = favoritesService.getFavorites(page,username);
         return ResultResponse.success(favorites);
     }
+
+    @GetMapping("/getFavoriteMusics")
+    @ApiOperation(value = "获取音乐库", notes = "获取音乐库")
+    public ResultResponse getFavoriteMusics(@RequestHeader("Authorization") String authHeader){
+        //读取jwt中用户信息
+        Claims claims = jwtUtils.getClaimsByToken(authHeader);
+        String username = claims.getSubject();
+        //获取喜欢的歌单id
+        User user = userService.selectUserByUsername(username);
+        Integer favoriteSheetId = user.getLiked();
+        //查询出歌单数据
+        Sheet favoriteSheet = sheetService.getById(favoriteSheetId);
+        return ResultResponse.success(favoriteSheet);
+    }
+
     @PostMapping("/set")
     @ApiOperation(value = "放入音乐库", notes = "音乐库")
     public ResultResponse setFavorites(@RequestParam String favType,

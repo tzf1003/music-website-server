@@ -42,7 +42,7 @@ implements FavoritesService{
         QueryWrapper favoritesQueryWrapper= new QueryWrapper();
         favoritesQueryWrapper.allEq(favoritesParams);
         //设置分页查询。
-        Page<Favorites> samplePage = new Page<>(page, 10);
+        Page<Favorites> samplePage = new Page<>(page, 1000);
         IPage<Favorites> result = favoritesMapper.selectPage(samplePage, favoritesQueryWrapper);
         //循环出数据
         List<Favorites> records = result.getRecords();

@@ -13,7 +13,6 @@ public interface SheetService extends IService<Sheet> {
     public List<Sheet> SearchSheet(String str);
     public List<Sheet> SearchSheet(String str,Long size);
     public List<Sheet> SearchSheet(String str,Long page,Long size);
-
     public Sheet RandomSheet();
 
 }
