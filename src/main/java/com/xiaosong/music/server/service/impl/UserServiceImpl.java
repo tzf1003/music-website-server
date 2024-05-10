@@ -63,6 +63,8 @@ implements UserService{
         user.setPassword(RSAPassword);
         //设置状态为未验证邮件。
         user.setState(UserStateEnum.NO_VERIFICATION_EMAIL);
+        //设置权限为USER
+        user.setRole("USER");
         //实例化数据
         userMapper.insert(user);
 
@@ -126,9 +128,9 @@ implements UserService{
 
     @Override
     public String getUserAuthorityInfo(Integer userId) {
-        //获取state就行
+        //获取role
         User user = userMapper.selectById(userId);
-        return user.getState().name();
+        return user.getRole();
     }
 }
 

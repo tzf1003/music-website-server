@@ -36,6 +36,7 @@ implements SheetMusicService{
         Long count = sheetMusicMapper.selectCount(wrapper);
 
         // 根据查询结果返回，这里假设如果有记录则返回true，无记录则返回false
+
         return count > 0;
     }
 

@@ -51,7 +51,7 @@ public class UserDetailServiceImpl implements UserDetailsService {
      */
     public List<GrantedAuthority> getUserAuthority(Integer userId) {
         // 示例方法，实际实现应根据具体数据表结构确定
-        // 获取用户的权限字符串，如"ROLE_admin,ROLE_normal,sys:user:list"
+        // 获取用户的权限字符串，如"ROLE_admin,ROLE_normal"
         String authority = sysUserService.getUserAuthorityInfo(userId);
 
         // 将逗号分隔的权限信息转换为GrantedAuthority对象列表

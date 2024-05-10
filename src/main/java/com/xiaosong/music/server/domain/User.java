@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import java.io.Serializable;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.xiaosong.music.server.enums.UserStateEnum;
 import lombok.Data;
 
@@ -31,7 +32,12 @@ public class User implements Serializable {
      * 密码(md5算法)
      */
     private String password;
-
+    /**
+     * 权限
+     * ADMIN 管理员
+     * USER 普通用户
+     */
+    private String role;
     /**
      * 头像链接
      */
@@ -58,6 +64,7 @@ public class User implements Serializable {
 2、被禁用
      */
     private UserStateEnum state;
+
 
     @TableField(exist = false)
     private static final long serialVersionUID = 1L;

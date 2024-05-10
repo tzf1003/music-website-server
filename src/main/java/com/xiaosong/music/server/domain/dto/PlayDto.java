@@ -1,6 +1,6 @@
 package com.xiaosong.music.server.domain.dto;
 
-public class playDto {
+public class PlayDto {
     private String id;
     private String title;
     private String artist;
