@@ -26,5 +26,10 @@ public class UserInfoDto {
      * 邮件
      */
     private String email;
-
+    /**
+     * 权限
+     * ADMIN 管理员
+     * USER 普通用户
+     */
+    private String role;
 }

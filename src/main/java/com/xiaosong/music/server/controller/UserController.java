@@ -88,21 +88,7 @@ public class UserController {
         userInfoDto.setEmail(StringUtil.maskEmail(user.getEmail()));
         userInfoDto.setDescription(user.getDescription());
         userInfoDto.setAvatar(user.getAvatar());
-        return ResultResponse.success(userInfoDto);
-    }
-    //获取用户的音乐库
-    public ResultResponse getUserSheet(@RequestHeader("Authorization") String authHeader) {
-        //读取jwt中用户信息
-        Claims claims = jwtUtils.getClaimsByToken(authHeader);
-        String username = claims.getSubject();
-
-        User user = userService.selectUserByUsername(username);
-        UserInfoDto userInfoDto = new UserInfoDto();
-        userInfoDto.setId(user.getId());
-        userInfoDto.setUsername(user.getUsername());
-        userInfoDto.setEmail(StringUtil.maskEmail(user.getEmail()));
-        userInfoDto.setDescription(user.getDescription());
-        userInfoDto.setAvatar(user.getAvatar());
+        userInfoDto.setRole(user.getRole());
         return ResultResponse.success(userInfoDto);
     }
 }
