@@ -7,7 +7,10 @@ import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.xiaosong.music.server.domain.Album;
+import com.xiaosong.music.server.domain.Music;
 import com.xiaosong.music.server.domain.Singer;
+import com.xiaosong.music.server.service.MusicService;
+import com.xiaosong.music.server.service.SingerMusicService;
 import com.xiaosong.music.server.service.SingerService;
 import com.xiaosong.music.server.mapper.SingerMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +27,10 @@ public class SingerServiceImpl extends ServiceImpl<SingerMapper, Singer>
 implements SingerService{
     @Autowired
     SingerMapper singerMapper;
+    @Autowired
+    MusicService musicService;
+    @Autowired
+    SingerMusicService singerMusicService;
     @Override
     public List<Singer> SearchSinger(String str) {
         //创建分页对象,只获取五个
@@ -80,6 +87,8 @@ implements SingerService{
         Singer singer = singerMapper.selectOne(wrapper);
         return singer;
     }
+
+
 }
 
 

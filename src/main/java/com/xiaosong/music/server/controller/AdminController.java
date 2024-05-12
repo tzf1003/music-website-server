@@ -16,6 +16,17 @@ public class AdminController {
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @ApiOperation(value = "管理员主页", notes = "展示系统信息")
     public ResultResponse adminHome(@RequestHeader("Authorization") String authHeader) {
+        //获取总播放量
+        //获取歌曲数量
+        //获取歌单数量
+        //获取用户数量
+
+        //获取系统版本
+        //获取服务器信息
+        //获取数据库信息
+        //获取服务器负载
+        //获取数据库负载
+        //获取服务器内存
 
         return ResultResponse.success();
     }

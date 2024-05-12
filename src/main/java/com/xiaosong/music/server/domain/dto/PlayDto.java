@@ -1,13 +1,17 @@
 package com.xiaosong.music.server.domain.dto;
 
+import com.xiaosong.music.server.domain.Album;
+import lombok.Data;
+
+@Data
 public class PlayDto {
-    private String id;
+    private Integer id;
     private String title;
     private String artist;
-    private String duration;
+    private Integer duration;
     private String lyrics;
-    private String album;
+    private Album album;
     private String url;
     private String image;
-    private String islike;
+    private Boolean islike;
 }

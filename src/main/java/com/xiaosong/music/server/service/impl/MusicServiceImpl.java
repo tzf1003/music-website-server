@@ -8,8 +8,12 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.xiaosong.music.server.domain.Music;
 import com.xiaosong.music.server.domain.Sheet;
+import com.xiaosong.music.server.domain.User;
 import com.xiaosong.music.server.service.MusicService;
 import com.xiaosong.music.server.mapper.MusicMapper;
+import com.xiaosong.music.server.service.SheetMusicService;
+import com.xiaosong.music.server.service.SheetService;
+import com.xiaosong.music.server.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -24,7 +28,10 @@ public class MusicServiceImpl extends ServiceImpl<MusicMapper, Music>
 implements MusicService{
     @Autowired
     MusicMapper musicMapper;
-
+    @Autowired
+    UserService userService;
+    @Autowired
+    SheetMusicService sheetMusicService;
     @Override
     public List<Music> SearchMusic(String str) {
         //创建分页对象,只获取五个
@@ -77,6 +84,13 @@ implements MusicService{
         Wrapper<Music> wrapper = new QueryWrapper<Music>().last("limit 1 offset "+offset);
         Music music = musicMapper.selectOne(wrapper);
         return music;
+    }
+
+    @Override
+    public Boolean isLike(String username, Integer musicId) {
+        User user =userService.selectUserByUsername(username);
+        Integer userLiked = user.getLiked();
+        return sheetMusicService.isLike(userLiked, musicId);
     }
 
 }

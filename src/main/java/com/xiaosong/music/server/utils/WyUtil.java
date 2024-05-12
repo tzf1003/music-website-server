@@ -42,10 +42,10 @@ public class WyUtil {
     private String baseUrl;
 
     //使用音乐ID获取音乐链接
-    public String getMusicURLById(Integer musicId){
+    public String getMusicURLById(String  musicId){
         logger.info("getMusicURLById:{}",musicId);
         OkHttpClient client = new OkHttpClient();
-        String url = baseUrl + "/lyric?id=" + musicId ;
+        String url = baseUrl + "/song/url?id=" + musicId ;
         try {
             //获取歌曲链接 http://101.42.149.18:3000/song/url?id=33894312
             Request request = new Request.Builder().url(url).build();
@@ -53,7 +53,8 @@ public class WyUtil {
             String responseData = response.body().string();
             JSONObject jsonObject = JSON.parseObject(responseData);
             logger.info("getMusicLyricById.jsonObject:{}",jsonObject);
-            JSONObject data = jsonObject.getJSONObject("data");
+            JSONArray jsonArray = jsonObject.getJSONArray("data");
+            JSONObject data = jsonArray.getJSONObject(0);
             return data.getString("url");
         }catch (Exception e) {
             e.printStackTrace();

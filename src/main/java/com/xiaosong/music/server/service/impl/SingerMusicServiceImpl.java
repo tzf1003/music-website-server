@@ -23,6 +23,20 @@ implements SingerMusicService{
     public List<Singer> selectSingerByMusicId(Integer musicId) {
         return singerMusicMapper.selectSingerByMusicId(musicId);
     }
+
+    @Override
+    public String getSingerStrByMusic(Integer musicId) {
+        List<Singer> singers = selectSingerByMusicId(musicId);
+        String singerStr = null;
+        for (int i = 0; i < singers.size(); i++) {
+            Singer singer = singers.get(i);
+            singerStr += singer.getName();
+            if (i < singers.size() - 1) {
+                singerStr += "，";
+            }
+        }
+        return singerStr;
+    }
 }
 
 

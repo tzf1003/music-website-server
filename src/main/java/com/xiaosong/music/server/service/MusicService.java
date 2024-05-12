@@ -15,4 +15,5 @@ public interface MusicService extends IService<Music> {
     public List<Music> SearchMusic(String str,Long page,Long size);
 
     public Music RandomMusic();
+    public Boolean isLike(String username , Integer musicId);
 }

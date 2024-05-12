@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.xiaosong.music.server.config.JWT.JwtUtils;
 import com.xiaosong.music.server.domain.*;
 import com.xiaosong.music.server.domain.dto.MusicDto;
+import com.xiaosong.music.server.domain.dto.PlayDto;
 import com.xiaosong.music.server.domain.dto.ResultResponse;
 import com.xiaosong.music.server.domain.dto.SheetDto;
 import com.xiaosong.music.server.error.BizException;
@@ -33,6 +34,8 @@ public class SheetController {
     AlbumMusicService albumMusicService;
     @Autowired
     SingerMusicService singerMusicService;
+    @Autowired
+    MusicService musicService;
     @GetMapping("/get")
     @ApiOperation(value = "分页获取音乐库", notes = "获取音乐库")
     public ResultResponse getSheet(@RequestParam(required = false) Integer id, @RequestHeader("Authorization") String authHeader){
@@ -76,6 +79,8 @@ public class SheetController {
         sheetDto.setCount(musicDto.size());
         return ResultResponse.success(sheetDto);
     }
+    @GetMapping("/play")
+    @ApiOperation(value = "播放音乐", notes = "获取音乐")
     public ResultResponse sheetPlay(@RequestParam(required = false) Integer id, @RequestHeader("Authorization") String authHeader){
         //读取jwt中用户信息
         Claims claims = jwtUtils.getClaimsByToken(authHeader);
@@ -90,8 +95,22 @@ public class SheetController {
                 throw new BizException("-1", "梅疣痊藓！");
             }
         }
-        //列出所有sheet
-
-        return ResultResponse.success();
+        //列出所有歌曲id
+        List<Music> musics = sheetMusicService.selectMusicBySheet(id);
+        List<PlayDto> playDtos= new ArrayList<>();
+        for (Music music : musics) {
+            PlayDto playDto = new PlayDto();
+            playDto.setId(music.getId());
+            playDto.setTitle(music.getName());
+            playDto.setArtist(singerMusicService.getSingerStrByMusic(music.getId()));
+            playDto.setDuration(music.getDuration());
+            playDto.setLyrics(music.getLyric());
+            playDto.setAlbum(albumMusicService.selectAlbumByMusicId(music.getId()).get(0));
+            playDto.setUrl("/api/play/music?id="+music.getId());
+            playDto.setImage(music.getImgUrl());
+            playDto.setIslike(musicService.isLike(username,music.getId()));
+            playDtos.add(playDto);
+        }
+        return ResultResponse.success(playDtos);
     }
 }

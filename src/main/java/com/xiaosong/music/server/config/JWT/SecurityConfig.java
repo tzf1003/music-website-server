@@ -71,7 +71,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
       "/webjars/**",
       "/user/isRegisterByEmail",
       "/user/isRegisterByUsername",
-      "/home"
+      "/home",
+      "/play/music"
     };
 
     /**

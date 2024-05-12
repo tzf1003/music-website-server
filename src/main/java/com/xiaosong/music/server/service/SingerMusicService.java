@@ -11,4 +11,7 @@ import java.util.List;
  */
 public interface SingerMusicService extends IService<SingerMusic> {
     public List<Singer> selectSingerByMusicId(Integer musicId);
+
+    public String getSingerStrByMusic(Integer musicId);
+
 }
