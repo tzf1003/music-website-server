@@ -30,7 +30,7 @@ public class SearchController {
     SingerService singerService;
     @GetMapping("/all")
     @ApiOperation(value = "默认搜索所有相关信息", notes = "搜索任何内容")
-    public ResultResponse searchAll(@RequestParam String  str, @RequestHeader("Authorization") String authHeader){
+    public ResultResponse searchAll(@RequestParam String  str, @RequestHeader("Authorization") String authHeader) {
         //设置输出的对象
         SearchDto searchDto = new SearchDto();
         //开始查询音乐
