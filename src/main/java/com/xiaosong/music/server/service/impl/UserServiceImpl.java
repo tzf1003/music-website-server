@@ -132,6 +132,7 @@ implements UserService{
         User user = userMapper.selectById(userId);
         return user.getRole();
     }
+
 }
 
 
