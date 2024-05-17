@@ -9,7 +9,7 @@ import lombok.Data;
 import java.util.List;
 @Data
 public class SearchDto {
-    List<Music> musics;
+    List<MusicDto> musics;
     List<Sheet> sheets;
     List<Singer> singers;
     List<Album> albums;

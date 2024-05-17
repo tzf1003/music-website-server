@@ -1,77 +1,59 @@
 package com.xiaosong.music.server.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
-import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.xiaosong.music.server.config.JWT.JwtUtils;
 import com.xiaosong.music.server.domain.*;
+import com.xiaosong.music.server.domain.dto.SingerDto;
 import com.xiaosong.music.server.domain.dto.MusicDto;
 import com.xiaosong.music.server.domain.dto.PlayDto;
 import com.xiaosong.music.server.domain.dto.ResultResponse;
-import com.xiaosong.music.server.domain.dto.SheetDto;
-import com.xiaosong.music.server.error.BizException;
 import com.xiaosong.music.server.service.*;
 import io.jsonwebtoken.Claims;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import org.apache.ibatis.annotations.Update;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.web.bind.annotation.*;
 
-import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 @RestController
-@RequestMapping("/sheet")
-@Api(value = "歌单接口", tags = "歌单管理相关的接口", description = "歌单接口")
-public class SheetController {
+@RequestMapping("/singer")
+@Api(value = "歌手接口", tags = "歌手管理相关的接口", description = "歌手接口")
+public class SingerController {
     @Autowired
     JwtUtils jwtUtils;
     @Autowired
-    SheetService sheetService;
+    SingerService singerService;
     @Autowired
     UserService userService;
     @Autowired
-    SheetMusicService sheetMusicService;
+    SingerMusicService singerMusicService;
     @Autowired
     AlbumMusicService albumMusicService;
     @Autowired
-    SingerMusicService singerMusicService;
+    SheetMusicService sheetMusicService;
     @Autowired
     MusicService musicService;
     @Autowired
     HistoryService historyService;
     @GetMapping("/get")
-    @ApiOperation(value = "分页获取音乐库", notes = "获取音乐库")
-    public ResultResponse getSheet(@RequestParam(required = false) Integer id, @RequestHeader("Authorization") String authHeader){
+    @ApiOperation(value = "分页获取歌手", notes = "获取歌手")
+    public ResultResponse getSinger(@RequestParam(required = false) Integer id, @RequestHeader("Authorization") String authHeader){
         //读取jwt中用户信息
         Claims claims = jwtUtils.getClaimsByToken(authHeader);
         String username = claims.getSubject();
-        //获取歌单信息
-        Sheet sheet = sheetService.getById(id);
-        //判断是否有权限
-        // 判断是否公开,0不公开，1公开
-        if (sheet.getIsPublic()==0){
-            if (userService.selectUserByUsername(username).getId()!=sheet.getUser()){
-                //无权限抛出异常
-                throw new BizException("-1", "梅疣痊藓！");
-            }
-        }
-        User sheetUser = userService.getById(sheet.getUser());
+        //读取用户信息
+        User user = userService.selectUserByUsername(username);
+        //获取歌手信息
+        Singer singer = singerService.getById(id);
+        SingerDto singerDto = new SingerDto();
 
-        SheetDto sheetDto = new SheetDto();
-
-        sheetDto.setId(sheet.getId());
-        sheetDto.setName(sheet.getName());
-        sheetDto.setDescription(sheet.getDescription());
-        sheetDto.setImgUrl(sheet.getImgUrl());
-        sheetDto.setUsername(sheetUser.getUsername());
-        sheetDto.setIsPublic(sheet.getIsPublic());
-        List<Music> musics = sheetMusicService.selectMusicBySheet(sheet.getId());
+        singerDto.setId(singer.getId());
+        singerDto.setName(singer.getName());
+        singerDto.setImgUrl(singer.getImgUrl());
+        List<Music> musics = singerMusicService.selectMusicBySinger(singer.getId());
         List<MusicDto> musicDto = new ArrayList<>();
         for (Music music : musics) {
             MusicDto dto = new MusicDto();
@@ -81,32 +63,24 @@ public class SheetController {
             dto.setAlbumObject(albums.get(0));
             List<Singer> singers = singerMusicService.selectSingerByMusicId(music.getId());
             dto.setSingerObject(singers);
-            boolean isLike = sheetMusicService.isLike(sheetUser.getLiked(), music.getId());
+            boolean isLike = sheetMusicService.isLike(user.getLiked(), music.getId());
             dto.setIsLike(isLike);
         }
-        sheetDto.setMusicList(musicDto);
-        sheetDto.setCount(musicDto.size());
-        return ResultResponse.success(sheetDto);
+        singerDto.setMusicList(musicDto);
+        singerDto.setCount(musicDto.size());
+        return ResultResponse.success(singerDto);
     }
     @GetMapping("/play")
     @ApiOperation(value = "播放音乐", notes = "获取音乐")
-    public ResultResponse sheetPlay(@RequestParam(required = false) Integer id, @RequestHeader("Authorization") String authHeader){
+    public ResultResponse singerPlay(@RequestParam(required = false) Integer id, @RequestHeader("Authorization") String authHeader){
         //读取jwt中用户信息
         Claims claims = jwtUtils.getClaimsByToken(authHeader);
         String username = claims.getSubject();
-        //获取歌单信息
-        Sheet sheet = sheetService.getById(id);
-        //判断是否有权限
-        // 判断是否公开,0不公开，1公开
         User user = userService.selectUserByUsername(username);
-        if (sheet.getIsPublic()==0){
-            if (user.getId()!=sheet.getUser()){
-                //无权限抛出异常
-                throw new BizException("-1", "梅疣痊藓！");
-            }
-        }
+        //获取歌手信息
+        Singer singer = singerService.getById(id);
         //列出所有歌曲id
-        List<Music> musics = sheetMusicService.selectMusicBySheet(id);
+        List<Music> musics = singerMusicService.selectMusicBySinger(id);
         List<PlayDto> playDtos= new ArrayList<>();
         for (Music music : musics) {
             PlayDto playDto = new PlayDto();
@@ -124,7 +98,7 @@ public class SheetController {
         //记录历史播放
         History history = new History();
         history.setUserId(user.getId());
-        history.setHisType("sheet");
+        history.setHisType("singer");
         history.setHisId(id);
         try {
             //先查询出数据，没有就新建，有就修改时间为现在

@@ -26,7 +26,7 @@ implements AlbumService{
     @Override
     public List<Album> SearchAlbum(String str) {
         //创建分页对象,只获取五个
-        Page<Album> page = new Page<>(0, 5);
+        Page<Album> page = new Page<>(0, 10);
         LambdaQueryWrapper<Album> wrapper = Wrappers.lambdaQuery();
         wrapper.like(Album::getName, str);
 

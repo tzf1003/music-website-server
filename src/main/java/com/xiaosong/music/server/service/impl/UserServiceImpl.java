@@ -75,7 +75,7 @@ implements UserService{
         sheet.setName("已点赞歌曲");
         sheet.setIsPublic(0);
         sheet.setSource("local-liked");
-        sheet.setSourceId("");
+        sheet.setSourceId(user.getId()+"");
         sheet.setImgUrl("https://music-1251788949.cos.ap-chongqing.myqcloud.com/liked-songs.png");
         sheet.setDescription("用户:"+user.getUsername()+",喜欢的音乐");
         sheetService.save(sheet);

@@ -13,6 +13,7 @@ import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -25,6 +26,8 @@ public class UserController {
     UserService userService;
     @Autowired
     JwtUtils jwtUtils;
+    @Autowired
+    PasswordEncoder passwordEncoder;
     @PostMapping("/user/register")
     @ApiOperation(value = "用户注册", notes = "注册")
     @ApiImplicitParam(name = "UserDto", value = "用户数据")
@@ -90,5 +93,41 @@ public class UserController {
         userInfoDto.setAvatar(user.getAvatar());
         userInfoDto.setRole(user.getRole());
         return ResultResponse.success(userInfoDto);
+    }
+//    修改用户信息
+    @PutMapping("/user/update")
+    @ApiOperation(value = "用户更新自己的信息", notes = "Put")
+    public ResultResponse put(@RequestHeader("Authorization") String authHeader,@RequestBody User user) {
+        //读取jwt中用户信息
+        Claims claims = jwtUtils.getClaimsByToken(authHeader);
+        String username = claims.getSubject();
+
+        User olduser = userService.selectUserByUsername(username);
+        //如果用户没有输入密码，则不更新密码。
+        if (user.getPassword()==null || "".equals(user.getPassword())){
+            user.setPassword(olduser.getPassword());
+        }else {
+            //密码加密存储
+            //使用BCryptPasswordEncoder加密编码密码
+            String RSAPassword = passwordEncoder.encode(user.getPassword());
+            user.setPassword(RSAPassword);
+        }
+        //此处判断邮箱不是脱敏后提交的信息，直接提交。
+        if(StringUtil.maskEmail(olduser.getEmail()).equals(user.getEmail())){
+            //提交的参数等于修改后的参数，则复制原始给提交的参数
+            user.setEmail(olduser.getEmail());
+        }
+        //不相信用户输入的ID,改为从token中读取
+        user.setId(olduser.getId());
+        //用户不能修改自己的ROLE
+        user.setRole(olduser.getRole());
+        //用户不能修改自己的状态
+        user.setState(olduser.getState());
+        boolean b = userService.updateById(user);
+        if (b){
+            return ResultResponse.success("","更新成功！");
+        }else {
+            return ResultResponse.error("更新失败！");
+        }
     }
 }

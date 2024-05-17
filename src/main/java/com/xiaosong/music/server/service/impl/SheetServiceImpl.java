@@ -28,7 +28,7 @@ implements SheetService{
     @Override
     public List<Sheet> SearchSheet(String str) {
         //创建分页对象,只获取五个
-        Page<Sheet> page = new Page<>(0, 5);
+        Page<Sheet> page = new Page<>(0, 10);
         LambdaQueryWrapper<Sheet> wrapper = Wrappers.lambdaQuery();
         wrapper.like(Sheet::getName, str);
 

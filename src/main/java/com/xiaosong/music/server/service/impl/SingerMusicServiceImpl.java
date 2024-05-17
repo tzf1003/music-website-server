@@ -1,6 +1,7 @@
 package com.xiaosong.music.server.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.xiaosong.music.server.domain.Music;
 import com.xiaosong.music.server.domain.Singer;
 import com.xiaosong.music.server.domain.SingerMusic;
 import com.xiaosong.music.server.service.SingerMusicService;
@@ -27,7 +28,7 @@ implements SingerMusicService{
     @Override
     public String getSingerStrByMusic(Integer musicId) {
         List<Singer> singers = selectSingerByMusicId(musicId);
-        String singerStr = null;
+        String singerStr = "";
         for (int i = 0; i < singers.size(); i++) {
             Singer singer = singers.get(i);
             singerStr += singer.getName();
@@ -36,6 +37,12 @@ implements SingerMusicService{
             }
         }
         return singerStr;
+    }
+
+    @Override
+    public List<Music> selectMusicBySinger(Integer id) {
+        List<Music> music = singerMusicMapper.selectMusicBySingerId(id);
+        return music;
     }
 }
 

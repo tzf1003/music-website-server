@@ -29,7 +29,7 @@ public class History implements Serializable {
     /**
      * 
      */
-    private Object hisType;
+    private String hisType;
 
     /**
      * 

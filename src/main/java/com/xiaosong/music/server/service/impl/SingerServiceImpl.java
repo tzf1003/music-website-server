@@ -34,7 +34,7 @@ implements SingerService{
     @Override
     public List<Singer> SearchSinger(String str) {
         //创建分页对象,只获取五个
-        Page<Singer> page = new Page<>(0, 5);
+        Page<Singer> page = new Page<>(0, 10);
         LambdaQueryWrapper<Singer> wrapper = Wrappers.lambdaQuery();
         wrapper.like(Singer::getName, str);
 
