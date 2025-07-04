@@ -53,6 +53,8 @@ public class SingerController {
         singerDto.setId(singer.getId());
         singerDto.setName(singer.getName());
         singerDto.setImgUrl(singer.getImgUrl());
+        singerDto.setDescription(singer.getDescription());
+        singerDto.setImg1v1Url(singer.getImg1v1Url());
         List<Music> musics = singerMusicService.selectMusicBySinger(singer.getId());
         List<MusicDto> musicDto = new ArrayList<>();
         for (Music music : musics) {

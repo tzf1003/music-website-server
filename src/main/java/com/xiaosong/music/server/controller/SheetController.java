@@ -58,7 +58,7 @@ public class SheetController {
         if (sheet.getIsPublic()==0){
             if (userService.selectUserByUsername(username).getId()!=sheet.getUser()){
                 //无权限抛出异常
-                throw new BizException("-1", "梅疣痊藓！");
+                throw new BizException("-1", "没有权限！");
             }
         }
         User sheetUser = userService.getById(sheet.getUser());
@@ -102,7 +102,7 @@ public class SheetController {
         if (sheet.getIsPublic()==0){
             if (user.getId()!=sheet.getUser()){
                 //无权限抛出异常
-                throw new BizException("-1", "梅疣痊藓！");
+                throw new BizException("-1", "没有权限！");
             }
         }
         //列出所有歌曲id
